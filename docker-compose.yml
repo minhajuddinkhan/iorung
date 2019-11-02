@@ -5,6 +5,7 @@ services:
     environment:
       - HOST=iorung
       - PORT=8002
+      - RPC_PORT=8003
       - AUTH_REDIS_URL=redis://auth-redis
       - SOCKET_REDIS_URL=redis://socket-redis
       - MONGODB_URI=mongodb://db:27017/rung
@@ -15,6 +16,7 @@ services:
       - ".:/go/src/github.com/minhajuddinkhan/iorung/"
     ports:
       - "8002:8002"
+      - "8003:8003"
 
   auth-redis:
     image: redis

@@ -6,13 +6,14 @@ services:
       - PORT=8002
       - AUTH_REDIS_URL=redis://auth-redis
       - SOCKET_REDIS_URL=redis://socket-redis
+      - MONGODB_URI=mongodb://db:27017/rung
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
       - ".:/go/src/github.com/minhajuddinkhan/iorung/"
     ports:
-      - "8001:8001"
+      - "8002:8002"
 
   auth-redis:
     image: redis
@@ -23,3 +24,12 @@ services:
     image: redis
     expose:
       - 6379
+
+  db:
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=rung
+      - MONGO_INITDB_USERNAME=pattaplayer
+      - MONGO_INITDB_PASSWORD=secret
+    ports:
+      - "27017:27017"

@@ -4,9 +4,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/minhajuddinkhan/iorung/socket"
-
 	"github.com/minhajuddinkhan/iorung"
+	"github.com/minhajuddinkhan/iorung/cache/socket"
 	"github.com/stretchr/testify/assert"
 )
 

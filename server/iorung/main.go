@@ -6,9 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/gorilla/mux"
-
 	"github.com/davecgh/go-spew/spew"
+	"github.com/googollee/go-socket.io"
 	"github.com/minhajuddinkhan/iorung"
 )
 
@@ -38,10 +37,20 @@ func main() {
 		},
 	}
 
-	r := mux.NewRouter()
-	http.Handle("/", r)
+	server, err := socketio.NewServer(nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 
+	server.OnConnect("/", func(s socketio.Conn) error {
+		fmt.Println("socket connected", s.ID())
+		return nil
+	})
+
+	go server.Serve()
+	defer server.Close()
+	http.Handle("/socket.io/", server)
 	spew.Dump("LISTENING ON PORT", conf.Port)
-	http.ListenAndServe(fmt.Sprintf(":%s", conf.Port), nil)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", conf.Port), nil))
 
 }

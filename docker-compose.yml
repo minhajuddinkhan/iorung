@@ -3,6 +3,7 @@ version: '3'
 services:
   iorung:
     environment:
+      - HOST=iorung
       - PORT=8002
       - AUTH_REDIS_URL=redis://auth-redis
       - SOCKET_REDIS_URL=redis://socket-redis

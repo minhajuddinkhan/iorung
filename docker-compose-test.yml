@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  iorung:
+    environment:
+      - PORT=8002
+      - AUTH_REDIS_URL=redis://auth-redis
+      - SOCKET_REDIS_URL=redis://socket-redis      
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ".:/go/src/github.com/minhajuddinkhan/iorung/"
+    ports:
+      - "8001:8001"
+
+  iorung_test_suite:
+    environment:
+      - PORT=8002
+      - HOST=iorung
+    depends_on:
+      - iorung
+    build:
+      context: .
+      dockerfile: Dockerfile-test
+    volumes:
+      - ".:/go/src/github.com/minhajuddinkhan/iorung/"
+
+  auth-redis:
+    image: redis
+    expose:
+      - 6379
+
+  socket-redis:
+    image: redis
+    expose:
+      - 6379

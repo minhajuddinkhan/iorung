@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/googollee/go-socket.io"
+	socketio "github.com/googollee/go-socket.io"
 	"github.com/minhajuddinkhan/iorung"
 	iorpc "github.com/minhajuddinkhan/iorung/io.rpc"
 )
@@ -30,6 +30,11 @@ func main() {
 		log.Fatal("empty socket redis url")
 	}
 
+	jwtSecret := os.Getenv("JWT_SECRET")
+	if jwtSecret == "" {
+		log.Fatal("empty jwt secret")
+	}
+
 	rpcPort, err := strconv.Atoi(os.Getenv("RPC_PORT"))
 	if err != nil {
 		log.Fatal(err)
@@ -43,6 +48,7 @@ func main() {
 		SocketRedis: iorung.Redis{
 			RedisURL: socketRedis,
 		},
+		JWTSecret: jwtSecret,
 	}
 
 	server, err := socketio.NewServer(nil)

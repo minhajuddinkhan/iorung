@@ -8,6 +8,7 @@ type Redis struct {
 type Conf struct {
 	Port        string
 	IORungPort  int
+	JWTSecret   string
 	AuthRedis   Redis
 	SocketRedis Redis
 }

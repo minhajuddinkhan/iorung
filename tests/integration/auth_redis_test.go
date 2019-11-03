@@ -4,8 +4,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/davecgh/go-spew/spew"
-
 	"github.com/minhajuddinkhan/iorung"
 	"github.com/minhajuddinkhan/iorung/cache/auth"
 	"github.com/stretchr/testify/assert"
@@ -22,6 +20,5 @@ func TestAuthRedis_PingShouldNotError(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, r)
 	err = r.Ping()
-	spew.Dump(err)
 	assert.Nil(t, err)
 }

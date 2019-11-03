@@ -3,9 +3,13 @@ version: '3'
 services:
   iorung:
     environment:
+      - HOST=iorung
       - PORT=8002
+      - RPC_PORT=8003
       - AUTH_REDIS_URL=redis://auth-redis
-      - SOCKET_REDIS_URL=redis://socket-redis      
+      - SOCKET_REDIS_URL=redis://socket-redis
+      - MONGODB_URI=mongodb://db:27017/test_rung
+      - JWT_SECRET=goo
     build:
       context: .
       dockerfile: Dockerfile

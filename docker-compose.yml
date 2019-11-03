@@ -9,6 +9,7 @@ services:
       - AUTH_REDIS_URL=redis://auth-redis
       - SOCKET_REDIS_URL=redis://socket-redis
       - MONGODB_URI=mongodb://db:27017/rung
+      - JWT_SECRET=goo
     build:
       context: .
       dockerfile: Dockerfile
@@ -34,5 +35,5 @@ services:
       - MONGO_INITDB_DATABASE=rung
       - MONGO_INITDB_USERNAME=pattaplayer
       - MONGO_INITDB_PASSWORD=secret
-    ports:
-      - "27017:27017"
+    expose:
+      - 27017

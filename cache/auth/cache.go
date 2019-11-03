@@ -4,13 +4,13 @@ import (
 	"fmt"
 
 	"github.com/minhajuddinkhan/iorung"
-	"github.com/minhajuddinkhan/pattay"
 )
 
 //Redis Redis
 type Redis interface {
 	Ping() error
-	Get(token string) (gameID string, player pattay.Player, err error)
+	Get(token string) (gameID string, playerID string, err error)
+	Set(token string, pl Player) error
 }
 
 type authRedis struct {

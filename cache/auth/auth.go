@@ -4,37 +4,46 @@ import (
 	"encoding/json"
 
 	"github.com/gomodule/redigo/redis"
-	"github.com/minhajuddinkhan/pattay"
 )
 
-type redisValue struct {
-	gameID string
-	player pattay.Player
+type Player struct {
+	PlayerID string
+	GameID   string
 }
 
-func (r *authRedis) Get(token string) (string, pattay.Player, error) {
+func (r *authRedis) Get(token string) (string, string, error) {
 
 	conn, err := redis.DialURL(r.url)
 	if err != nil {
-		return "", nil, err
+		return "", "", err
 	}
 	defer conn.Close()
 
-	val, err := conn.Do("GET", token)
+	s, err := redis.String(conn.Do("GET", token))
 	if err != nil {
-		return "", nil, err
+		return "", "", err
 	}
 
-	b, err := redis.Bytes(val, err)
+	var pl Player
+	err = json.Unmarshal([]byte(s), &pl)
 	if err != nil {
-		return "", nil, err
+		return "", "", err
 	}
 
-	var rd redisValue
-	err = json.Unmarshal(b, &rd)
-	if err != nil {
-		return "", nil, err
-	}
+	return pl.GameID, pl.PlayerID, nil
+}
 
-	return rd.gameID, rd.player, nil
+//Set Set
+func (r *authRedis) Set(token string, pl Player) error {
+	conn, err := redis.DialURL(r.url)
+	if err != nil {
+		return err
+	}
+	b, err := json.Marshal(pl)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+	_, err = conn.Do("SET", token, b)
+	return err
 }

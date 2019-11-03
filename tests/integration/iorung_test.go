@@ -33,14 +33,16 @@ func TestIORungRPC_CanPing(t *testing.T) {
 	assert.Equal(t, input, out)
 }
 
+var token string
+var PlayerID = "1"
+
 func TestIORungRPC_CanAddPlayer(t *testing.T) {
 
 	req := iorpc.AddPlayerRequest{
 		GameID:   "1",
-		PlayerID: "1",
+		PlayerID: PlayerID,
 	}
 	conn := beforeEachRPC(t)
-	var token string
 	err := conn.Call("InterfaceRPC.AddPlayer", req, &token)
 	assert.Nil(t, err)
 
@@ -50,10 +52,34 @@ func TestIORungRPC_CanAddPlayer(t *testing.T) {
 			RedisURL: url,
 		},
 	})
-
 	playerID, gameID, err := r.Get(token)
 	assert.Nil(t, err)
 	assert.Equal(t, req.GameID, gameID)
 	assert.Equal(t, req.PlayerID, playerID)
+
+}
+
+func TestIORungRPC_CanJoinGame(t *testing.T) {
+
+	req := iorpc.JoinGameRequest{
+		GameID: "55",
+		Token:  token,
+	}
+	var done bool
+	conn := beforeEachRPC(t)
+	err := conn.Call("InterfaceRPC.SetGameIDInToken", req, &done)
+	assert.Nil(t, err)
+
+	url := os.Getenv("AUTH_REDIS_URL")
+	r, err := auth.NewAuthRedis(&iorung.Conf{
+		AuthRedis: iorung.Redis{
+			RedisURL: url,
+		},
+	})
+
+	gameID, playerID, err := r.Get(token)
+	assert.Nil(t, err)
+	assert.Equal(t, PlayerID, playerID)
+	assert.Equal(t, gameID, req.GameID)
 
 }

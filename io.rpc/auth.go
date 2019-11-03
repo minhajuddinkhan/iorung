@@ -23,7 +23,6 @@ func (as *InterfaceRPC) AddPlayer(in AddPlayerRequest, out *string) error {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"playerID": in.PlayerID,
-		"gameID":   in.GameID,
 	})
 
 	tokenString, err := token.SignedString([]byte(as.jwtSecret))

@@ -1,5 +1,6 @@
-package rpcalls
+package iorpc
 
+// MAJOR REFACTORING REQUIRED. CANNOT PUSH CODE WITHOUT IT.
 import (
 	"fmt"
 	"net"
@@ -10,19 +11,19 @@ import (
 	"github.com/minhajuddinkhan/iorung/cache/auth"
 )
 
-//AuthService AuthService
-type AuthService struct {
+//InterfaceRPC InterfaceRPC
+type InterfaceRPC struct {
 	authRedis auth.Redis
 }
 
-//NewAuthListener creates a new auth listener
-func NewAuthListener(conf *iorung.Conf) (net.Listener, error) {
+//NewIOListener creates a new rpc listener for iorung
+func NewIOListener(conf *iorung.Conf) (net.Listener, error) {
 
 	r, err := auth.NewAuthRedis(conf)
 	if err != nil {
 		return nil, err
 	}
-	service := new(AuthService)
+	service := new(InterfaceRPC)
 	service.authRedis = r
 	rpc.Register(service)
 	rpc.HandleHTTP()
@@ -35,7 +36,7 @@ func NewAuthListener(conf *iorung.Conf) (net.Listener, error) {
 }
 
 // Authenticate authenticates if a player has token in redis
-func (as *AuthService) Authenticate(token string, out *bool) error {
+func (as *InterfaceRPC) Authenticate(token string, out *bool) error {
 	_, _, err := as.authRedis.Get(token)
 	if err != nil {
 		*out = true
@@ -46,7 +47,7 @@ func (as *AuthService) Authenticate(token string, out *bool) error {
 }
 
 //Ping Ping
-func (as *AuthService) Ping(in string, out *string) error {
+func (as *InterfaceRPC) Ping(in string, out *string) error {
 	*out = in
 	return nil
 }

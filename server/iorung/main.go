@@ -10,7 +10,7 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/googollee/go-socket.io"
 	"github.com/minhajuddinkhan/iorung"
-	"github.com/minhajuddinkhan/iorung/rpcalls"
+	iorpc "github.com/minhajuddinkhan/iorung/io.rpc"
 )
 
 func main() {
@@ -58,7 +58,7 @@ func main() {
 	go server.Serve()
 	defer server.Close()
 
-	l, err := rpcalls.NewAuthListener(&conf)
+	l, err := iorpc.NewIOListener(&conf)
 	if err != nil {
 		log.Fatal(err)
 	}

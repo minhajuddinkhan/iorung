@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/minhajuddinkhan/iorung/cache/auth"
 )
@@ -25,7 +24,6 @@ func (as *InterfaceRPC) Authenticate(token string, out *AuthenticateResponse) er
 
 //AddPlayer adds player to auth redis.
 func (as *InterfaceRPC) AddPlayer(in AddPlayerRequest, out *string) error {
-	spew.Dump("incoming Request", in)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"playerID": in.PlayerID,
 		"nbf":      time.Date(2015, 10, 10, 12, 0, 0, 0, time.UTC).Unix(),

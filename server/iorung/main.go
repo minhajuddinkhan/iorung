@@ -7,7 +7,6 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/davecgh/go-spew/spew"
 	socketio "github.com/googollee/go-socket.io"
 	"github.com/minhajuddinkhan/iorung"
 	iorpc "github.com/minhajuddinkhan/iorung/io.rpc"
@@ -77,7 +76,7 @@ func main() {
 	}()
 
 	http.Handle("/socket.io/", server)
-	spew.Dump("LISTENING ON PORT", conf.Port)
+	fmt.Println("LISTENING ON PORT", conf.Port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", conf.Port), nil))
 
 }

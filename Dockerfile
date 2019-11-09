@@ -9,5 +9,5 @@ RUN set -eux; \
 RUN mkdir -p /go/src/github.com/minhajuddinkhan/iorung/
 WORKDIR /go/src/github.com/minhajuddinkhan/iorung/
 COPY . .
-RUN go mod vendor
+# RUN go mod vendor
 CMD go run bin/iorung/main.go

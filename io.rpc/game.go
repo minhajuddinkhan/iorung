@@ -5,12 +5,8 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/minhajuddinkhan/iorung/cache/auth"
+	"github.com/minhajuddinkhan/rung"
 )
-
-type JoinGameRequest struct {
-	GameID string
-	Token  string
-}
 
 //SetGameIDInToken sets game id against token
 func (io *InterfaceRPC) SetGameIDInToken(req JoinGameRequest, out *bool) error {
@@ -41,6 +37,29 @@ func (io *InterfaceRPC) SetGameIDInToken(req JoinGameRequest, out *bool) error {
 	}
 	*out = true
 
+	return nil
+
+}
+
+//DistributeCards distributes cards amongst players
+func (io *InterfaceRPC) DistributeCards(req DistributeCardsRequest, out *bool) error {
+
+	game := rung.NewGame()
+	if err := game.DistributeCards(); err != nil {
+		return err
+	}
+
+	for i, player := range game.Players() {
+		err := io.playerStore.SetCardsAgainstPlayer(
+			player.CardsAtHand(),
+			req.PlayerIds[i],
+			req.GameID)
+		if err != nil {
+			return err
+		}
+	}
+
+	*out = true
 	return nil
 
 }

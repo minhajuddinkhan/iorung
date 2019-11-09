@@ -23,3 +23,19 @@ type DistributeCardsRequest struct {
 	PlayerIds []string
 	GameID    string
 }
+
+//DistributeCardsResponse DistributeCardsResponse
+type DistributeCardsResponse struct {
+	Players []Player
+	GameID  string
+}
+
+type Player struct {
+	Cards    []Card
+	PlayerID string
+	GameID   string
+}
+type Card struct {
+	House  string
+	Number int
+}

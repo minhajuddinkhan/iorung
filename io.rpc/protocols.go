@@ -24,12 +24,6 @@ type DistributeCardsRequest struct {
 	GameID    string
 }
 
-//DistributeCardsResponse DistributeCardsResponse
-type DistributeCardsResponse struct {
-	Players []Player
-	GameID  string
-}
-
 type Player struct {
 	Cards    []Card
 	PlayerID string

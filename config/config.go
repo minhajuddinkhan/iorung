@@ -2,12 +2,19 @@ package config
 
 import (
 	"log"
+	"net/url"
 	"os"
 	"strconv"
 )
 
 type Redis struct {
 	RedisURL string
+}
+
+//DB DB config
+type DB struct {
+	Connection string
+	DBName     string
 }
 
 //Conf webrung conf
@@ -17,6 +24,7 @@ type Conf struct {
 	JWTSecret   string
 	AuthRedis   Redis
 	SocketRedis Redis
+	DB          DB
 }
 
 func New() Conf {
@@ -41,6 +49,15 @@ func New() Conf {
 		log.Fatal("empty jwt secret")
 	}
 
+	dbURI := os.Getenv("MONGODB_URI")
+	if dbURI == "" {
+		log.Fatal("empty db uri")
+	}
+	parsedURI, err := url.Parse(dbURI)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	rpcPort, err := strconv.Atoi(os.Getenv("RPC_PORT"))
 	if err != nil {
 		log.Fatal(err)
@@ -55,6 +72,10 @@ func New() Conf {
 			RedisURL: socketRedis,
 		},
 		JWTSecret: jwtSecret,
+		DB: DB{
+			Connection: dbURI,
+			DBName:     parsedURI.Path[1:],
+		},
 	}
 
 }

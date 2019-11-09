@@ -3,7 +3,7 @@ package auth
 import (
 	"fmt"
 
-	"github.com/minhajuddinkhan/iorung"
+	"github.com/minhajuddinkhan/iorung/config"
 )
 
 //Redis Redis
@@ -18,7 +18,7 @@ type authRedis struct {
 }
 
 //NewAuthRedis returns connection of the authentication redis client
-func NewAuthRedis(conf *iorung.Conf) (Redis, error) {
+func NewAuthRedis(conf *config.Conf) (Redis, error) {
 	if conf == nil {
 		return nil, fmt.Errorf("redis err: nil configuration provided")
 	}

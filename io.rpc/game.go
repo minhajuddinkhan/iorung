@@ -43,7 +43,7 @@ func (io *InterfaceRPC) SetGameIDInToken(req JoinGameRequest, out *bool) error {
 }
 
 //DistributeCards distributes cards amongst players
-func (io *InterfaceRPC) DistributeCards(req DistributeCardsRequest, out *DistributeCardsResponse) error {
+func (io *InterfaceRPC) DistributeCards(req DistributeCardsRequest, resp *bool) error {
 
 	game := rung.NewGame()
 	game.ShuffleDeck(5)
@@ -51,29 +51,14 @@ func (io *InterfaceRPC) DistributeCards(req DistributeCardsRequest, out *Distrib
 		return err
 	}
 
-	var players []Player
 	for i, player := range game.Players() {
 		var cards []models.Card
-		var respCards []Card
-
 		for _, c := range player.CardsAtHand() {
 			cards = append(cards, models.Card{
 				House:  c.House(),
 				Number: c.Number(),
 			})
-
-			respCards = append(respCards, Card{
-				House:  c.House(),
-				Number: c.Number(),
-			})
-
 		}
-
-		players = append(players, Player{
-			Cards:    respCards,
-			PlayerID: req.PlayerIds[i],
-			GameID:   req.GameID,
-		})
 
 		err := io.playerStore.SetCardsAgainstPlayer(
 			cards,
@@ -83,11 +68,7 @@ func (io *InterfaceRPC) DistributeCards(req DistributeCardsRequest, out *Distrib
 			return err
 		}
 	}
-
-	*out = DistributeCardsResponse{
-		Players: players,
-		GameID:  req.GameID,
-	}
+	*resp = true
 	return nil
 
 }

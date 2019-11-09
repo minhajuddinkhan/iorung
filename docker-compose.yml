@@ -37,3 +37,6 @@ services:
       - MONGO_INITDB_PASSWORD=secret
     expose:
       - 27017
+
+    ports:
+      - "27017:27017"

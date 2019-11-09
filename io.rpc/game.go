@@ -5,6 +5,7 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/minhajuddinkhan/iorung/cache/auth"
+	"github.com/minhajuddinkhan/iorung/models"
 	"github.com/minhajuddinkhan/rung"
 )
 
@@ -42,16 +43,40 @@ func (io *InterfaceRPC) SetGameIDInToken(req JoinGameRequest, out *bool) error {
 }
 
 //DistributeCards distributes cards amongst players
-func (io *InterfaceRPC) DistributeCards(req DistributeCardsRequest, out *bool) error {
+func (io *InterfaceRPC) DistributeCards(req DistributeCardsRequest, out *DistributeCardsResponse) error {
 
 	game := rung.NewGame()
+	game.ShuffleDeck(5)
 	if err := game.DistributeCards(); err != nil {
 		return err
 	}
 
+	var players []Player
 	for i, player := range game.Players() {
+		var cards []models.Card
+		var respCards []Card
+
+		for _, c := range player.CardsAtHand() {
+			cards = append(cards, models.Card{
+				House:  c.House(),
+				Number: c.Number(),
+			})
+
+			respCards = append(respCards, Card{
+				House:  c.House(),
+				Number: c.Number(),
+			})
+
+		}
+
+		players = append(players, Player{
+			Cards:    respCards,
+			PlayerID: req.PlayerIds[i],
+			GameID:   req.GameID,
+		})
+
 		err := io.playerStore.SetCardsAgainstPlayer(
-			player.CardsAtHand(),
+			cards,
 			req.PlayerIds[i],
 			req.GameID)
 		if err != nil {
@@ -59,7 +84,10 @@ func (io *InterfaceRPC) DistributeCards(req DistributeCardsRequest, out *bool) e
 		}
 	}
 
-	*out = true
+	*out = DistributeCardsResponse{
+		Players: players,
+		GameID:  req.GameID,
+	}
 	return nil
 
 }

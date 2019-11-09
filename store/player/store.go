@@ -2,13 +2,13 @@ package player
 
 import (
 	"github.com/minhajuddinkhan/iorung/config"
-	"github.com/minhajuddinkhan/pattay"
+	"github.com/minhajuddinkhan/iorung/models"
 )
 
 //Store player store
 type Store interface {
 	Ping() error
-	SetCardsAgainstPlayer(cards []pattay.Card, playerID string, gameID string) error
+	SetCardsAgainstPlayer(cards []models.Card, playerID string, gameID string) error
 }
 
 type playerStore struct {

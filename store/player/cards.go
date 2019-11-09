@@ -3,10 +3,9 @@ package player
 import (
 	"github.com/globalsign/mgo"
 	"github.com/minhajuddinkhan/iorung/models"
-	"github.com/minhajuddinkhan/pattay"
 )
 
-func (s *playerStore) SetCardsAgainstPlayer(cards []pattay.Card, playerID, gameID string) error {
+func (s *playerStore) SetCardsAgainstPlayer(cards []models.Card, playerID, gameID string) error {
 
 	session, err := mgo.Dial(s.connectionString)
 	defer session.Clone()

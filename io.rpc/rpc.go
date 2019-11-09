@@ -5,8 +5,8 @@ import (
 	"net"
 	"net/rpc"
 
-	"github.com/minhajuddinkhan/iorung"
 	"github.com/minhajuddinkhan/iorung/cache/auth"
+	"github.com/minhajuddinkhan/iorung/config"
 )
 
 //InterfaceRPC InterfaceRPC
@@ -16,7 +16,7 @@ type InterfaceRPC struct {
 }
 
 //NewIOListener creates a new rpc listener for iorung
-func NewIOListener(conf *iorung.Conf) (net.Listener, error) {
+func NewIOListener(conf *config.Conf) (net.Listener, error) {
 
 	r, err := auth.NewAuthRedis(conf)
 	if err != nil {

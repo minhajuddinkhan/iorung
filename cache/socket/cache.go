@@ -3,7 +3,7 @@ package socket
 import (
 	"fmt"
 
-	"github.com/minhajuddinkhan/iorung"
+	"github.com/minhajuddinkhan/iorung/config"
 )
 
 //Redis Redis
@@ -16,7 +16,7 @@ type socketRedis struct {
 }
 
 //NewSocketRedis returns connection of the socket redis client
-func NewSocketRedis(conf *iorung.Conf) (Redis, error) {
+func NewSocketRedis(conf *config.Conf) (Redis, error) {
 	if conf == nil {
 		return nil, fmt.Errorf("redis err: nil configuration provided")
 	}

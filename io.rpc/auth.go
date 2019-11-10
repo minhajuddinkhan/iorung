@@ -6,11 +6,14 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/minhajuddinkhan/iorung/cache/auth"
+	authManager "github.com/minhajuddinkhan/iorung/managers/auth"
 )
 
 // Authenticate authenticates if a player has token in redis
 func (as *InterfaceRPC) Authenticate(token string, out *AuthenticateResponse) error {
-	gameID, playerID, err := as.authRedis.Get(token)
+	mgr := authManager.New(as.authRedis)
+
+	gameID, playerID, err := mgr.Authenticate(token)
 	if err != nil {
 		return fmt.Errorf("unable to authenticate. err:%v", err)
 	}

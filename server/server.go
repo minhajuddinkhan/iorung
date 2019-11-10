@@ -10,6 +10,7 @@ import (
 	iorpc "github.com/minhajuddinkhan/iorung/io.rpc"
 )
 
+//Start starts the server
 func Start(conf config.Conf) error {
 
 	server, err := socketio.NewServer(nil)
@@ -37,6 +38,11 @@ func Start(conf config.Conf) error {
 			log.Fatal(err)
 		}
 	}()
+
+	server.OnConnect("/", func(s socketio.Conn) error {
+		fmt.Println("socket connectec", s.ID())
+		return nil
+	})
 
 	http.Handle("/socket.io/", server)
 	fmt.Println("LISTENING ON PORT", conf.Port)

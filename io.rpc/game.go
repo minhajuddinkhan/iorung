@@ -68,6 +68,12 @@ func (io *InterfaceRPC) DistributeCards(req DistributeCardsRequest, resp *bool) 
 			return err
 		}
 	}
+
+	//TODO::
+	//1. get all sockets connected to this game.
+	//2. find out which socket belongs to which player
+	//3. emit cards on each socket respectivelly.
+
 	*resp = true
 	return nil
 

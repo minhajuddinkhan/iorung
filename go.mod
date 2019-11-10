@@ -11,6 +11,7 @@ require (
 	github.com/minhajuddinkhan/pattay v0.0.0-20191028100910-34e770032855
 	github.com/minhajuddinkhan/rung v0.0.0-20191031210109-4e196ea8c23b
 	github.com/stretchr/testify v1.4.0
+	google.golang.org/appengine v1.4.0
 )
 
 go 1.13

@@ -62,15 +62,28 @@ func TestIORungRPC_CanAddPlayer(t *testing.T) {
 
 }
 
+type Context struct {
+	GameID   string `json:"game_id"`
+	PlayerID string `json:"player_id"`
+}
+
 func TestIORungRPC_CanJoinGame(t *testing.T) {
 
-	req := iorpc.JoinGameRequest{
+	req := iorpc.AddPlayerRequest{
+		GameID:   "55",
+		PlayerID: "1",
+	}
+	conn := beforeEachRPC(t)
+	err := conn.Call("InterfaceRPC.AddPlayer", req, &token)
+	assert.Nil(t, err)
+
+	joinReq := iorpc.JoinGameRequest{
 		GameID: "55",
 		Token:  token,
 	}
 	var done bool
-	conn := beforeEachRPC(t)
-	err := conn.Call("InterfaceRPC.SetGameIDInToken", req, &done)
+	conn = beforeEachRPC(t)
+	err = conn.Call("InterfaceRPC.SetGameIDInToken", joinReq, &done)
 	assert.Nil(t, err)
 
 	conf := config.New()

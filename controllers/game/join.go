@@ -8,6 +8,11 @@ import (
 	authManager "github.com/minhajuddinkhan/iorung/managers/auth"
 )
 
+type Context struct {
+	GameID   string `json:"game_id"`
+	PlayerID string `json:"player_id"`
+}
+
 //JoinGame JoinGame
 func JoinGame(authRedis auth.Redis) func(s socketio.Conn, msg map[string]interface{}) {
 	return func(s socketio.Conn, msg map[string]interface{}) {
@@ -19,12 +24,12 @@ func JoinGame(authRedis auth.Redis) func(s socketio.Conn, msg map[string]interfa
 			s.Emit("error", fmt.Errorf("invalid token: %s", token))
 		}
 
-		ctx := make(map[string]interface{})
-		ctx["gameID"] = gameID
-		ctx["playerID"] = playerID
+		ctx := Context{
+			GameID:   gameID,
+			PlayerID: playerID,
+		}
 		s.SetContext(ctx)
-
-		s.Emit("player-joined", ctx)
+		s.Emit("pjoin", ctx)
 	}
 
 }

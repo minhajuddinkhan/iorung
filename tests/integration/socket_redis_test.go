@@ -4,16 +4,17 @@ import (
 	"os"
 	"testing"
 
-	"github.com/minhajuddinkhan/iorung"
 	"github.com/minhajuddinkhan/iorung/cache/socket"
+	"github.com/minhajuddinkhan/iorung/config"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestSocketRedis_PingShouldNotError(t *testing.T) {
 
 	url := os.Getenv("SOCKET_REDIS_URL")
-	r, err := socket.NewSocketRedis(&iorung.Conf{
-		SocketRedis: iorung.Redis{
+
+	r, err := socket.NewSocketRedis(&config.Conf{
+		SocketRedis: config.Redis{
 			RedisURL: url,
 		},
 	})

@@ -6,25 +6,28 @@ import (
 	"os"
 	"testing"
 
-	"github.com/minhajuddinkhan/iorung"
 	"github.com/minhajuddinkhan/iorung/cache/auth"
+	"github.com/minhajuddinkhan/iorung/config"
 	iorpc "github.com/minhajuddinkhan/iorung/io.rpc"
 	"github.com/stretchr/testify/assert"
 )
 
 var host = "localhost"
-var port = os.Getenv("RPC_PORT")
+
+// var port = os.Getenv("RPC_PORT")
 
 func beforeEachRPC(t *testing.T) *rpc.Client {
-	conn, err := rpc.DialHTTP("tcp", fmt.Sprintf("%s:%s", host, port))
+	conf := config.New()
+
+	conn, err := rpc.DialHTTP("tcp", fmt.Sprintf("%s:%d", host, conf.IORungPort))
 	assert.Nil(t, err)
 	return conn
 
 }
+
 func TestIORungRPC_CanPing(t *testing.T) {
 
 	conn := beforeEachRPC(t)
-
 	input := "hello"
 	var out string
 	err := conn.Call("InterfaceRPC.Ping", input, &out)
@@ -47,8 +50,8 @@ func TestIORungRPC_CanAddPlayer(t *testing.T) {
 	assert.Nil(t, err)
 
 	url := os.Getenv("AUTH_REDIS_URL")
-	r, err := auth.NewAuthRedis(&iorung.Conf{
-		AuthRedis: iorung.Redis{
+	r, err := auth.NewAuthRedis(&config.Conf{
+		AuthRedis: config.Redis{
 			RedisURL: url,
 		},
 	})
@@ -70,12 +73,8 @@ func TestIORungRPC_CanJoinGame(t *testing.T) {
 	err := conn.Call("InterfaceRPC.SetGameIDInToken", req, &done)
 	assert.Nil(t, err)
 
-	url := os.Getenv("AUTH_REDIS_URL")
-	r, err := auth.NewAuthRedis(&iorung.Conf{
-		AuthRedis: iorung.Redis{
-			RedisURL: url,
-		},
-	})
+	conf := config.New()
+	r, err := auth.NewAuthRedis(&conf)
 
 	gameID, playerID, err := r.Get(token)
 	assert.Nil(t, err)

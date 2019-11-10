@@ -5,10 +5,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	gosocketio "github.com/graarh/golang-socketio"
 	"github.com/graarh/golang-socketio/transport"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSocket_CanConnect(t *testing.T) {

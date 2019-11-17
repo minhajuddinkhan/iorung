@@ -7,27 +7,27 @@ import (
 )
 
 type Player struct {
-	PlayerID string
-	GameID   string
+	PlayerID uint
+	GameID   uint
 }
 
-func (r *authRedis) Get(token string) (string, string, error) {
+func (r *authRedis) Get(token string) (uint, uint, error) {
 
 	conn, err := redis.DialURL(r.url)
 	if err != nil {
-		return "", "", err
+		return 0, 0, err
 	}
 	defer conn.Close()
 
 	s, err := redis.String(conn.Do("GET", token))
 	if err != nil {
-		return "", "", err
+		return 0, 0, err
 	}
 
 	var pl Player
 	err = json.Unmarshal([]byte(s), &pl)
 	if err != nil {
-		return "", "", err
+		return 0, 0, err
 	}
 
 	return pl.GameID, pl.PlayerID, nil

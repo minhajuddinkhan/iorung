@@ -27,8 +27,12 @@ func (io *InterfaceRPC) SetGameIDInToken(req JoinGameRequest, out *bool) error {
 		return fmt.Errorf("invalid token")
 	}
 
+	playerID, ok := claims["playerID"].(float64)
+	if !ok {
+		return fmt.Errorf("invalid player id sent")
+	}
 	pl := auth.Player{
-		PlayerID: claims["playerID"].(string),
+		PlayerID: uint(playerID),
 		GameID:   req.GameID,
 	}
 

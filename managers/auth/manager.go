@@ -6,7 +6,7 @@ import (
 
 //Manager authentication manager
 type Manager interface {
-	Authenticate(token string) (gameID string, playerID string, err error)
+	Authenticate(token string) (gameID, playerID uint, err error)
 }
 
 type manager struct {

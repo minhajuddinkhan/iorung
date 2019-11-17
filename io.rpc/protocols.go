@@ -2,32 +2,32 @@ package iorpc
 
 //AddPlayerRequest AddPlayerRequest
 type AddPlayerRequest struct {
-	PlayerID string
-	GameID   string
+	PlayerID uint
+	GameID   uint
 }
 
 //AuthenticateResponse AuthenticateResponse
 type AuthenticateResponse struct {
-	GameID   string
-	PlayerID string
+	GameID   uint
+	PlayerID uint
 }
 
 //JoinGameRequest rpc request protocol for joining a game
 type JoinGameRequest struct {
-	GameID string
+	GameID uint
 	Token  string
 }
 
 //DistributeCardsRequest rpc request protocol for distributing cards in a game
 type DistributeCardsRequest struct {
-	PlayerIds []string
-	GameID    string
+	PlayerIds []uint
+	GameID    uint
 }
 
 type Player struct {
 	Cards    []Card
-	PlayerID string
-	GameID   string
+	PlayerID uint
+	GameID   uint
 }
 type Card struct {
 	House  string

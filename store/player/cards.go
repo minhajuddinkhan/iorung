@@ -5,7 +5,7 @@ import (
 	"github.com/minhajuddinkhan/iorung/models"
 )
 
-func (s *playerStore) SetCardsAgainstPlayer(cards []models.Card, playerID, gameID string) error {
+func (s *playerStore) SetCardsAgainstPlayer(cards []models.Card, playerID, gameID uint) error {
 
 	session, err := mgo.Dial(s.connectionString)
 	defer session.Clone()

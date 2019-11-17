@@ -50,3 +50,8 @@ func (as *InterfaceRPC) AddPlayer(in AddPlayerRequest, out *string) error {
 	}
 	return nil
 }
+
+//Logout Logout
+func (as *InterfaceRPC) Logout(req LogoutRequest, out *bool) error {
+	return as.authRedis.Delete(req.Token)
+}

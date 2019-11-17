@@ -8,6 +8,6 @@ import (
 type Player struct {
 	Cards    []Card        `bson:"cards"`
 	ID       bson.ObjectId `bson:"_id,omitempty"`
-	PlayerID string        `bson:"player_id"`
-	GameID   string        `bson:"game_id"`
+	PlayerID uint          `bson:"player_id"`
+	GameID   uint          `bson:"game_id"`
 }

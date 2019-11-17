@@ -8,7 +8,7 @@ import (
 //Store player store
 type Store interface {
 	Ping() error
-	SetCardsAgainstPlayer(cards []models.Card, playerID string, gameID string) error
+	SetCardsAgainstPlayer(cards []models.Card, playerID, gameID uint) error
 }
 
 type playerStore struct {

@@ -9,7 +9,7 @@ import (
 //Redis Redis
 type Redis interface {
 	Ping() error
-	Get(token string) (gameID string, playerID string, err error)
+	Get(token string) (gameID, playerID uint, err error)
 	Set(token string, pl Player) error
 }
 

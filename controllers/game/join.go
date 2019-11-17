@@ -9,8 +9,8 @@ import (
 )
 
 type Context struct {
-	GameID   string `json:"game_id"`
-	PlayerID string `json:"player_id"`
+	GameID   uint `json:"game_id"`
+	PlayerID uint `json:"player_id"`
 }
 
 //JoinGame JoinGame

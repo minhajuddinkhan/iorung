@@ -39,11 +39,27 @@ func (r *authRedis) Set(token string, pl Player) error {
 	if err != nil {
 		return err
 	}
+	defer conn.Close()
 	b, err := json.Marshal(pl)
 	if err != nil {
 		return err
 	}
-	defer conn.Close()
 	_, err = conn.Do("SET", token, b)
 	return err
+}
+
+func (r *authRedis) Delete(token string) error {
+
+	conn, err := redis.DialURL(r.url)
+	if err != nil {
+		return err
+	}
+
+	defer conn.Close()
+	if _, err := conn.Do("DEL", token); err != nil {
+		return err
+	}
+
+	return nil
+
 }

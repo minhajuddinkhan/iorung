@@ -33,3 +33,8 @@ type Card struct {
 	House  string
 	Number int
 }
+
+//LogoutRequest LogoutRequest
+type LogoutRequest struct {
+	Token string
+}

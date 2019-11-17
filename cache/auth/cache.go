@@ -11,6 +11,7 @@ type Redis interface {
 	Ping() error
 	Get(token string) (gameID, playerID uint, err error)
 	Set(token string, pl Player) error
+	Delete(token string) error
 }
 
 type authRedis struct {

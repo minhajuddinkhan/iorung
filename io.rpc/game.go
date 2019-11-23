@@ -6,6 +6,7 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/minhajuddinkhan/iorung/cache/auth"
 	"github.com/minhajuddinkhan/iorung/models"
+	"github.com/minhajuddinkhan/iorung/socketpool"
 	"github.com/minhajuddinkhan/rung"
 )
 
@@ -71,12 +72,12 @@ func (io *InterfaceRPC) DistributeCards(req DistributeCardsRequest, resp *bool) 
 		if err != nil {
 			return err
 		}
-	}
 
-	//TODO::
-	//1. get all sockets connected to this game.
-	//2. find out which socket belongs to which player
-	//3. emit cards on each socket respectivelly.
+		io.gamepool.
+			OnGame(socketpool.GameID(req.GameID)).
+			OnPlayer(socketpool.PlayerID(req.PlayerIds[i])).
+			ReceiveInitialCards(cards)
+	}
 
 	*resp = true
 	return nil

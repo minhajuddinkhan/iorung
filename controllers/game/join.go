@@ -18,7 +18,6 @@ type Context struct {
 func JoinGame(authRedis auth.Redis, gamepool socketpool.GamePool) func(s socketio.Conn, msg map[string]interface{}) {
 	return func(s socketio.Conn, msg map[string]interface{}) {
 		token := msg["token"].(string)
-		fmt.Println("RECEIVED!", token)
 		mgr := authManager.New(authRedis)
 		gameID, playerID, err := mgr.Authenticate(token)
 		if err != nil {
@@ -36,7 +35,8 @@ func JoinGame(authRedis auth.Redis, gamepool socketpool.GamePool) func(s socketi
 			PlayerID: playerID,
 		}
 		s.SetContext(ctx)
-		gamepool.JoinGame(socketpool.GameID(gameID), socketpool.PlayerID(playerID), s)
+
+		gamepool.JoinGame(socketpool.GameID(gameID), socketpool.PlayerID(playerID), socketpool.NewPlayerConn(s))
 	}
 
 }

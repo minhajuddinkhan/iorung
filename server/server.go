@@ -50,7 +50,6 @@ func Start(conf config.Conf) error {
 	}
 
 	server.OnConnect("/", func(s socketio.Conn) error {
-		fmt.Println("socket connected", s.ID())
 		return nil
 	})
 

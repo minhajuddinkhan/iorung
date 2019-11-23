@@ -7,6 +7,7 @@ import (
 
 	"github.com/minhajuddinkhan/iorung/cache/auth"
 	"github.com/minhajuddinkhan/iorung/config"
+	"github.com/minhajuddinkhan/iorung/socketpool"
 	"github.com/minhajuddinkhan/iorung/store/player"
 )
 
@@ -15,10 +16,11 @@ type InterfaceRPC struct {
 	authRedis   auth.Redis
 	playerStore player.Store
 	jwtSecret   string
+	gamepool    socketpool.GamePool
 }
 
 //NewIOListener creates a new rpc listener for iorung
-func NewIOListener(conf *config.Conf) (net.Listener, error) {
+func NewIOListener(conf *config.Conf, gamepool socketpool.GamePool) (net.Listener, error) {
 
 	r, err := auth.NewAuthRedis(conf)
 	if err != nil {
@@ -30,6 +32,7 @@ func NewIOListener(conf *config.Conf) (net.Listener, error) {
 	service.authRedis = r
 	service.jwtSecret = conf.JWTSecret
 	service.playerStore = playerStore
+	service.gamepool = gamepool
 
 	rpc.Register(service)
 	rpc.HandleHTTP()

@@ -20,13 +20,8 @@ type InterfaceRPC struct {
 }
 
 //NewIOListener creates a new rpc listener for iorung
-func NewIOListener(conf *config.Conf, gamepool socketpool.GamePool) (net.Listener, error) {
+func NewIOListener(r auth.Redis, playerStore player.Store, gamepool socketpool.GamePool, conf *config.Conf) (net.Listener, error) {
 
-	r, err := auth.NewAuthRedis(conf)
-	if err != nil {
-		return nil, err
-	}
-	playerStore := player.NewPlayerStore(conf.DB)
 	service := new(InterfaceRPC)
 
 	service.authRedis = r

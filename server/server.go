@@ -16,6 +16,7 @@ import (
 	"github.com/minhajuddinkhan/iorung/controllers/game"
 	iorpc "github.com/minhajuddinkhan/iorung/io.rpc"
 	"github.com/minhajuddinkhan/iorung/socketpool"
+	"github.com/minhajuddinkhan/iorung/store/player"
 )
 
 func corsMiddleware(next http.Handler) http.Handler {
@@ -55,10 +56,16 @@ func Start(conf config.Conf) error {
 
 	go server.Serve()
 	defer server.Close()
+	redis, err := auth.NewAuthRedis(&conf)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	playerStore := player.NewPlayerStore(conf.DB)
 
 	// conf := config.New()
 	gp := socketpool.NewGamePool()
-	l, err := iorpc.NewIOListener(&conf, gp)
+	l, err := iorpc.NewIOListener(redis, playerStore, gp, &conf)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -70,11 +77,10 @@ func Start(conf config.Conf) error {
 		}
 	}()
 
-	redis, err := auth.NewAuthRedis(&conf)
-	if err != nil {
-		log.Fatal(err)
-	}
-	server.OnEvent("/", "authenticate", game.JoinGame(redis, gp))
+	gctrl := game.NewGameCtrl(redis, playerStore, gp)
+
+	server.OnEvent("/", "authenticate", gctrl.Authenticate)
+	server.OnEvent("/", "join", gctrl.JoinGame)
 
 	http.Handle("/socket.io/", corsMiddleware(server))
 	fmt.Println("LISTENING ON PORT", conf.Port)

@@ -2,6 +2,6 @@ package models
 
 //Card playing card model
 type Card struct {
-	House  string `bson:"house"`
-	Number int    `bson:"number"`
+	House  string `json:"house,omitempty" bson:"house"`
+	Number int    `json:"number" bson:"number"`
 }

@@ -70,6 +70,8 @@ github.com/minhajuddinkhan/rung v0.0.0-20191031210109-4e196ea8c23b h1:DJ7JNXIT9r
 github.com/minhajuddinkhan/rung v0.0.0-20191031210109-4e196ea8c23b/go.mod h1:GaTC8V4Bdlydgsa1AG/uwyFMrSPgAbH3tRhyrInuRUg=
 github.com/neelance/astrewrite v0.0.0-20160511093645-99348263ae86/go.mod h1:kHJEU3ofeGjhHklVoIGuVj85JJwZ6kWPaJwCIxgnFmo=
 github.com/neelance/sourcemap v0.0.0-20151028013722-8c68805598ab/go.mod h1:Qr6/a/Q4r9LP1IltGz7tA7iOK1WonHEYhu1HRBA7ZiM=
+github.com/olivere/elastic v6.2.26+incompatible h1:3PjUHKyt8xKwbFQpRC5cgtEY7Qz6ejopBkukhI7UWvE=
+github.com/olivere/elastic v6.2.26+incompatible/go.mod h1:J+q1zQJTgAz9woqsbVRqGeB5G1iqDKVBWLNSYW8yfJ8=
 github.com/openzipkin/zipkin-go v0.1.1/go.mod h1:NtoC/o8u3JlF1lSlyPNswIbeQH9bJTmOf0Erfk+hxe8=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=

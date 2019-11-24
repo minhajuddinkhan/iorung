@@ -9,6 +9,7 @@ import (
 type Store interface {
 	Ping() error
 	SetCardsAgainstPlayer(cards []models.Card, playerID, gameID uint) error
+	GetPlayer(playerID uint) (*models.Player, error)
 }
 
 type playerStore struct {

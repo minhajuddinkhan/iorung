@@ -6,8 +6,8 @@ import (
 
 //Player player with cards
 type Player struct {
-	Cards    []Card        `bson:"cards"`
-	ID       bson.ObjectId `bson:"_id,omitempty"`
-	PlayerID uint          `bson:"player_id"`
-	GameID   uint          `bson:"game_id"`
+	Cards    []Card        `json:"cards,omitempty" bson:"cards"`
+	ID       bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
+	PlayerID uint          `json:"player_id,omitempty" bson:"player_id"`
+	GameID   uint          `json:"game_id" bson:"game_id"`
 }

@@ -10,6 +10,7 @@ require (
 	github.com/graarh/golang-socketio v0.0.0-20170510162725-2c44953b9b5f
 	github.com/minhajuddinkhan/pattay v0.0.0-20191028100910-34e770032855
 	github.com/minhajuddinkhan/rung v0.0.0-20191031210109-4e196ea8c23b
+	github.com/olivere/elastic v6.2.26+incompatible
 	github.com/rs/cors v1.7.0
 	github.com/stretchr/testify v1.4.0
 	google.golang.org/appengine v1.4.0
